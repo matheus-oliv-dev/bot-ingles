@@ -2,6 +2,8 @@
 
 **Teacher Sarah** is an advanced AI-powered English Tutor designed to help you practice your speaking, listening, and grammar through a beautiful Web Interface. 
 
+🌐 **Live Demo:** [https://bot.matheusdev.com.br](https://bot.matheusdev.com.br)
+
 Initially built as a Telegram/WhatsApp bot, the project has evolved into a fully interactive **Web Application** featuring real-time audio recording, vocabulary flashcards, and grammar analysis.
 
 ---
