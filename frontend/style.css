@@ -183,7 +183,7 @@ body {
     margin-left: auto;
 }
 
-.export-btn, .portfolio-btn {
+.export-btn {
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid var(--glass-border);
     color: var(--text-primary);
@@ -192,23 +192,46 @@ body {
     font-size: 13px;
     cursor: pointer;
     transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.portfolio-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
     text-decoration: none;
     display: flex;
     align-items: center;
 }
 
-.export-btn:hover, .portfolio-btn:hover {
+.export-btn:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: translateY(-1px);
+}
+
+.portfolio-btn:hover {
+    color: var(--text-primary);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.02);
 }
 
 @media (max-width: 450px) {
     .btn-text {
         display: none;
     }
-    .export-btn, .portfolio-btn {
+    .export-btn {
         padding: 8px;
         font-size: 16px;
+    }
+    .portfolio-btn {
+        padding: 6px 8px;
+        font-size: 12px;
     }
 }
 
