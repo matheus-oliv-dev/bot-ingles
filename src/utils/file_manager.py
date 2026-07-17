@@ -1,11 +1,10 @@
 import os
 import uuid
 
-# Pasta central para arquivos temporários
-TEMP_FOLDER = 'temp'
+import tempfile
 
-if not os.path.exists(TEMP_FOLDER):
-    os.makedirs(TEMP_FOLDER)
+# Pasta central para arquivos temporários usando diretório do SO (necessário para Vercel Serverless)
+TEMP_FOLDER = tempfile.gettempdir()
 
 def generate_temp_filename(extension="ogg"):
     """

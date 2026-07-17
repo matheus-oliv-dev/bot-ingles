@@ -141,8 +141,9 @@ function appendAIMessage(data) {
     let html = `<div class="message-bubble">
         <div class="ai-text">${data.text}</div>`;
         
-    if (data.audio_url) {
-        html += `<button class="replay-btn" onclick="playAudio('${data.audio_url}')" title="Replay Audio">🔄 Replay</button>`;
+    if (data.audio_base64) {
+        const audioSrc = "data:audio/mp3;base64," + data.audio_base64;
+        html += `<button class="replay-btn" onclick="playAudio('${audioSrc}')" title="Replay Audio">🔄 Replay</button>`;
     }
     html += `</div>`;
     
@@ -275,8 +276,9 @@ async function processServerResponse(formData, msgId, originalText = null) {
         }
 
         // Toca o áudio original
-        if(data.audio_url) {
-            playAudio(data.audio_url);
+        if(data.audio_base64) {
+            const audioSrc = "data:audio/mp3;base64," + data.audio_base64;
+            playAudio(audioSrc);
         }
 
     } catch (error) {

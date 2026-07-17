@@ -88,6 +88,7 @@ def web_chat():
     from flask import jsonify
     import time
     import traceback
+    import base64
 
     print("\n" + "="*50)
     print("📥 Nova requisição Web recebida!")
@@ -228,13 +229,15 @@ def web_chat():
             loop.close()
         print(f"✅ Áudio gerado em {time.time() - t0:.2f}s")
         
-        # 5. Montar resposta
-        filename = os.path.basename(caminho_output)
-        url_audio_resposta = f"{request.host_url}temp/{filename}"
+        # 5. Ler áudio gerado e converter para Base64
+        audio_base64 = ""
+        if os.path.exists(caminho_output):
+            with open(caminho_output, "rb") as f:
+                audio_base64 = base64.b64encode(f.read()).decode("utf-8")
         
         total_elapsed = time.time() - total_start
         TOTAL_PROCESSING_LATENCY.labels(platform='web').observe(total_elapsed)
-        print(f"✅ Resposta pronta em {total_elapsed:.2f}s! URL: {url_audio_resposta}")
+        print(f"✅ Resposta pronta em {total_elapsed:.2f}s (Áudio via Base64)!")
         print("="*50 + "\n")
         
         return jsonify({
@@ -242,7 +245,7 @@ def web_chat():
             "transcription": transcricao,
             "errors": erros,
             "suggestions": sugestoes,
-            "audio_url": url_audio_resposta,
+            "audio_base64": audio_base64,
             "vocab_word": vocab_word,
             "vocab_meaning": vocab_meaning,
             "vocab_example": vocab_example,
@@ -258,6 +261,8 @@ def web_chat():
         from src.utils.file_manager import safe_remove_file
         if caminho_input:
             safe_remove_file(caminho_input)
+        if caminho_output:
+            safe_remove_file(caminho_output)
 
 
 @api_bp.route('/temp/<path:filename>')
