@@ -173,25 +173,33 @@ body {
 }
 
 .header-info p {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--text-secondary);
 }
 
-.export-btn {
+.header-actions {
+    display: flex;
+    gap: 12px;
     margin-left: auto;
+}
+
+.export-btn, .portfolio-btn {
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid var(--glass-border);
     color: var(--text-primary);
-    padding: 8px 12px;
+    padding: 6px 12px;
     border-radius: 8px;
-    font-size: 14px;
-    font-family: inherit;
+    font-size: 13px;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
 }
 
-.export-btn:hover {
+.export-btn:hover, .portfolio-btn:hover {
     background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
 }
 
 /* Chat Container */
