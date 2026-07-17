@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Sarah - AI English Tutor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>📚 Essential Topics</h2>
+            <p>From Grammar in Use</p>
+        </div>
+        <div class="topic-list">
+            <button class="topic-btn" onclick="startTopic('Verb To Be (am/is/are)')">
+                <span class="topic-icon">🟢</span>
+                <span class="topic-text">Verb To Be</span>
+            </button>
+            <button class="topic-btn" onclick="startTopic('Present Continuous (I am doing)')">
+                <span class="topic-icon">🏃</span>
+                <span class="topic-text">Present Continuous</span>
+            </button>
+            <button class="topic-btn" onclick="startTopic('Present Simple (I do)')">
+                <span class="topic-icon">☕</span>
+                <span class="topic-text">Present Simple</span>
+            </button>
+            <button class="topic-btn" onclick="startTopic('Present Perfect (I have done)')">
+                <span class="topic-icon">✅</span>
+                <span class="topic-text">Present Perfect</span>
+            </button>
+            <button class="topic-btn" onclick="startTopic('Past Simple (I did)')">
+                <span class="topic-icon">🕰️</span>
+                <span class="topic-text">Past Simple</span>
+            </button>
+            <button class="topic-btn" onclick="startTopic('Ordering Food at a Restaurant')">
+                <span class="topic-icon">🍔</span>
+                <span class="topic-text">Ordering Food</span>
+            </button>
+            <button class="topic-btn" onclick="startTopic('Checking in at the Airport')">
+                <span class="topic-icon">✈️</span>
+                <span class="topic-text">Airport Check-in</span>
+            </button>
+        </div>
+    </aside>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="glass-header">
+            <div class="avatar-container">
+                <div class="avatar">👩‍🏫</div>
+                <div class="status-indicator"></div>
+            </div>
+            <div class="header-info">
+                <h1>Teacher Sarah</h1>
+                <p>AI English Tutor</p>
+            </div>
+            <button id="exportBtn" class="export-btn" title="Export Conversation to CSV">📥 CSV</button>
+        </header>
+
+        <!-- Chat Area -->
+        <main class="chat-container" id="chatContainer">
+            <div class="message ai-message">
+                <div class="message-bubble">
+                    Hello! I'm Sarah. Tap the microphone and say something in English so we can practice! 🎙️
+                </div>
+            </div>
+        </main>
+
+        <!-- Controls -->
+        <div class="controls glass-footer">
+            <div class="input-area">
+                <input type="text" id="textInput" placeholder="Type a message..." class="text-input" autocomplete="off">
+                <div class="recording-controls">
+                    <button id="cancelBtn" class="cancel-btn" style="display: none;" title="Cancel Recording">❌</button>
+                    <button id="recordBtn" class="record-btn">
+                        <span class="mic-icon" id="actionIcon">🎙️</span>
+                    </button>
+                </div>
+            </div>
+            <p id="statusText" class="status-text">Tap to talk or type a message</p>
+        </div>
+    </div>
+    
+    <!-- Hidden audio element for playback -->
+    <audio id="audioPlayer" style="display: none;"></audio>
+
+    <script src="app.js"></script>
+</body>
+</html>

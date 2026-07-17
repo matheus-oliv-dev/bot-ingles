@@ -4,3 +4,7 @@ __pycache__/
 static/
 *.log
 memoria_bot.json
+*.pdf
+backup.sql
+temp/
+__pycache__/
