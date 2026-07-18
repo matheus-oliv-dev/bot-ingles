@@ -11,7 +11,8 @@ from src.utils.metrics import TOTAL_PROCESSING_LATENCY, ERROR_COUNT
 from src.utils.file_manager import TEMP_FOLDER, generate_temp_filename
 
 import json
-CACHE_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'cache_respostas.json')
+import tempfile
+CACHE_FILE = os.path.join(tempfile.gettempdir(), 'cache_respostas.json')
 
 def get_cache():
     if os.path.exists(CACHE_FILE):

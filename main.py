@@ -1,8 +1,7 @@
 import os
-from flask import Flask, send_from_directory, jsonify
+from flask import Flask, send_from_directory, jsonify, request
 from flask_cors import CORS
 from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
 from src.api.routes import api_bp
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -11,8 +10,11 @@ FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 app = Flask(__name__, static_folder=FRONTEND_DIR)
 CORS(app)
 
+def get_ip():
+    return request.headers.get('x-forwarded-for', request.remote_addr)
+
 limiter = Limiter(
-    get_remote_address,
+    get_ip,
     app=app,
     default_limits=["30 per day", "3 per minute"],
     storage_uri="memory://"

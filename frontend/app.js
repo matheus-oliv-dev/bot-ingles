@@ -275,7 +275,12 @@ async function processServerResponse(formData, msgId, originalText = null) {
         });
 
         if (!response.ok) {
-            throw new Error('Server error');
+            let errorMsg = 'Server error';
+            try {
+                const errData = await response.json();
+                if (errData.error) errorMsg = errData.error;
+            } catch(e) {}
+            throw new Error(errorMsg);
         }
 
         const data = await response.json();
@@ -312,7 +317,11 @@ async function processServerResponse(formData, msgId, originalText = null) {
     } catch (error) {
         console.error('Error communicating with server:', error);
         removeTypingIndicator();
-        appendAIMessage({text: "Sorry, I had a technical problem! Check my connection."});
+        let msgText = "Sorry, I had a technical problem! Check my connection.";
+        if (error.message && error.message !== 'Server error' && error.message !== 'Failed to fetch') {
+            msgText = error.message;
+        }
+        appendAIMessage({text: "⚠️ " + msgText});
     } finally {
         if (!isCancelled) {
             resetRecordingUI(false);
