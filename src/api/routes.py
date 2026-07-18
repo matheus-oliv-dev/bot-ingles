@@ -96,6 +96,7 @@ def web_chat():
 
     texto_usuario = request.form.get('text')
     audio_file = request.files.get('audio')
+    history_text = request.form.get('history', '')
 
     if not texto_usuario and not audio_file:
         print("❌ Nenhum arquivo de áudio ou texto enviado")
