@@ -9,10 +9,13 @@
 </head>
 <body>
     <!-- Sidebar -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h2>📚 Essential Topics</h2>
-            <p>From Grammar in Use</p>
+            <div>
+                <h2>📚 Essential Topics</h2>
+                <p>From Grammar in Use</p>
+            </div>
+            <button id="closeSidebarBtn" class="close-sidebar-btn" title="Close Menu">✕</button>
         </div>
         <div class="topic-list">
             <button class="topic-btn" onclick="startTopic('Verb To Be (am/is/are)')">
@@ -49,6 +52,7 @@
     <div class="app-container">
         <!-- Header -->
         <header class="glass-header">
+            <button id="menuBtn" class="menu-btn" title="Topics Menu">☰</button>
             <div class="avatar-container">
                 <div class="avatar">👩‍🏫</div>
                 <div class="status-indicator"></div>

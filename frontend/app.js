@@ -7,12 +7,25 @@ const cancelBtn = document.getElementById('cancelBtn');
 const exportBtn = document.getElementById('exportBtn');
 const textInput = document.getElementById('textInput');
 const actionIcon = document.getElementById('actionIcon');
+const sidebar = document.getElementById('sidebar');
+const menuBtn = document.getElementById('menuBtn');
+const closeSidebarBtn = document.getElementById('closeSidebarBtn');
 
 let mediaRecorder;
 let audioChunks = [];
 let isRecording = false;
 let isCancelled = false;
 let conversationHistory = []; // To track for CSV export
+
+if (menuBtn && sidebar && closeSidebarBtn) {
+    menuBtn.addEventListener('click', () => {
+        sidebar.classList.add('active');
+    });
+    
+    closeSidebarBtn.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+    });
+}
 
 // Configuração da API do Backend
 const API_URL = '/api/web-chat';
@@ -37,6 +50,12 @@ textInput.addEventListener('keypress', (e) => {
 
 window.startTopic = function(topicName) {
     if (isRecording || recordBtn.disabled) return;
+    
+    // Close sidebar on mobile after selection
+    if (sidebar && sidebar.classList.contains('active')) {
+        sidebar.classList.remove('active');
+    }
+
     const message = `Teacher Sarah, let's practice: ${topicName}`;
     textInput.value = message;
     actionIcon.textContent = '🚀';
