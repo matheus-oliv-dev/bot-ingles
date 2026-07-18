@@ -239,6 +239,9 @@ async function sendTextToServer(text) {
 
     const formData = new FormData();
     formData.append('text', text);
+    
+    const recentHistory = conversationHistory.slice(-4).map(h => `User: ${h.user}\nTeacher Sarah: ${h.ai}`).join('\n\n');
+    formData.append('history', recentHistory);
 
     await processServerResponse(formData, msgId, text);
 }
@@ -254,6 +257,9 @@ async function sendAudioToServer() {
     const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
     const formData = new FormData();
     formData.append('audio', audioBlob, 'recording.webm');
+    
+    const recentHistory = conversationHistory.slice(-4).map(h => `User: ${h.user}\nTeacher Sarah: ${h.ai}`).join('\n\n');
+    formData.append('history', recentHistory);
 
     await processServerResponse(formData, msgId, null);
 }

@@ -110,8 +110,11 @@ def web_chat():
         
         if texto_usuario:
             print(f"✅ Texto recebido: {texto_usuario}")
+            
+            history_context = f"\nPrevious Conversation Context:\n{history_text}\n" if history_text else ""
+            
             prompt = f"""
-            You are a friendly English Tutor. The user is practicing English via Web text.
+            You are a friendly English Tutor. The user is practicing English via Web text.{history_context}
             The user typed this message: "{texto_usuario}"
             
             1. Use exactly what the user typed as the "transcription" field.
@@ -150,8 +153,10 @@ def web_chat():
             arquivo_gemini = load_audio_inline(caminho_input, mime_type="audio/webm")
             print(f"✅ Upload concluído em {time.time() - t0:.2f}s")
             
-            prompt = """
-            You are a friendly English Tutor. The user is practicing English via Web audio.
+            history_context = f"\nPrevious Conversation Context:\n{history_text}\n" if history_text else ""
+            
+            prompt = f"""
+            You are a friendly English Tutor. The user is practicing English via Web audio.{history_context}
             1. Listen to the user's audio.
             2. Provide exactly what the user said (transcription).
             3. Respond naturally to the conversation in English (maximum 2 sentences).
