@@ -1,6 +1,8 @@
 import os
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, jsonify
 from flask_cors import CORS
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from src.api.routes import api_bp
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -8,6 +10,18 @@ FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 
 app = Flask(__name__, static_folder=FRONTEND_DIR)
 CORS(app)
+
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    default_limits=["30 per day", "3 per minute"],
+    storage_uri="memory://"
+)
+
+@app.errorhandler(429)
+def ratelimit_handler(e):
+    return jsonify(error="Você atingiu o limite de mensagens temporário."), 429
+
 app.register_blueprint(api_bp)
 
 @app.route('/')

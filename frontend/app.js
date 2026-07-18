@@ -228,6 +228,9 @@ function removeTypingIndicator() {
 }
 
 async function sendTextToServer(text) {
+    if (text.length > 300) {
+        text = text.substring(0, 300);
+    }
     textInput.value = '';
     actionIcon.textContent = '🎙️';
     

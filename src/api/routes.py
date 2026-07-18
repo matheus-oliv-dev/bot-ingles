@@ -10,6 +10,25 @@ from src.services.tts_service import gerar_audio_edge
 from src.utils.metrics import TOTAL_PROCESSING_LATENCY, ERROR_COUNT
 from src.utils.file_manager import TEMP_FOLDER, generate_temp_filename
 
+import json
+CACHE_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'cache_respostas.json')
+
+def get_cache():
+    if os.path.exists(CACHE_FILE):
+        try:
+            with open(CACHE_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception:
+            return {}
+    return {}
+
+def save_cache(cache_data):
+    try:
+        with open(CACHE_FILE, 'w', encoding='utf-8') as f:
+            json.dump(cache_data, f, ensure_ascii=False, indent=4)
+    except Exception as e:
+        print(f"Erro ao salvar cache: {e}")
+
 api_bp = Blueprint('api', __name__)
 
 @api_bp.route('/metrics')
@@ -23,6 +42,8 @@ def bot():
     import time
     
     msg_recebida = request.values.get('Body', '').lower()
+    if len(msg_recebida) > 300:
+        msg_recebida = msg_recebida[:300]
     media_url = request.values.get('MediaUrl0')
     remetente = request.values.get('From')
     
@@ -95,6 +116,11 @@ def web_chat():
     print("="*50)
 
     texto_usuario = request.form.get('text')
+    
+    if texto_usuario and len(texto_usuario) > 300:
+        print("❌ Mensagem muito longa.")
+        return jsonify({"error": "Sua mensagem excedeu o limite de 300 caracteres."}), 400
+
     audio_file = request.files.get('audio')
     history_text = request.form.get('history', '')
 
@@ -111,6 +137,13 @@ def web_chat():
         
         if texto_usuario:
             print(f"✅ Texto recebido: {texto_usuario}")
+            
+            cache_key = texto_usuario.strip().lower()
+            cache_db = get_cache()
+            if cache_key in cache_db:
+                print("✅ Retornando resposta do CACHE!")
+                TOTAL_PROCESSING_LATENCY.labels(platform='web').observe(time.time() - total_start)
+                return jsonify(cache_db[cache_key])
             
             history_context = f"\nPrevious Conversation Context:\n{history_text}\n" if history_text else ""
             
@@ -246,7 +279,7 @@ def web_chat():
         print(f"✅ Resposta pronta em {total_elapsed:.2f}s (Áudio via Base64)!")
         print("="*50 + "\n")
         
-        return jsonify({
+        payload = {
             "text": resposta_texto,
             "transcription": transcricao,
             "errors": erros,
@@ -256,7 +289,14 @@ def web_chat():
             "vocab_meaning": vocab_meaning,
             "vocab_example": vocab_example,
             "wiki_image": wiki_image
-        })
+        }
+
+        if texto_usuario:
+            cache_db = get_cache()
+            cache_db[cache_key] = payload
+            save_cache(cache_db)
+            
+        return jsonify(payload)
         
     except Exception as e:
         print(f"❌ Erro Crítico Web: {e}")
