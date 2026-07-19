@@ -16,7 +16,7 @@ def get_ip():
 limiter = Limiter(
     get_ip,
     app=app,
-    default_limits=["30 per day", "3 per minute"],
+    default_limits=["200 per day", "10 per minute"],
     storage_uri="memory://"
 )
 
