@@ -200,7 +200,7 @@ def web_chat():
             6. Extract ONE interesting English vocabulary noun from the conversation. Provide it as "vocab_word". Provide a simple english definition as "vocab_meaning". Provide a short example sentence as "vocab_example".
             
             You MUST return your response in RAW JSON format with EXACTLY these keys:
-            {
+            {{
                 "transcription": "what the user said",
                 "response": "your verbal response",
                 "errors": ["error 1 with correction", "error 2"],
@@ -208,7 +208,7 @@ def web_chat():
                 "vocab_word": "apple",
                 "vocab_meaning": "a round fruit with red or green skin",
                 "vocab_example": "I ate a sweet apple today."
-            }
+            }}
             Return ONLY valid JSON.
             """
             conteudo_gemini = [prompt, arquivo_gemini]
