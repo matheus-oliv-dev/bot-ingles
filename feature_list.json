@@ -1,0 +1,11 @@
+{
+  "features": [
+    {
+      "id": "F01",
+      "behavior": "Implement Harness Engineering Subsystems",
+      "verification": ".\\init.bat passes successfully.",
+      "state": "pending",
+      "evidence": ""
+    }
+  ]
+}
